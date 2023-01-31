@@ -2,6 +2,13 @@ import { Link } from "react-router-dom";
 import "./footer.scss";
 
 const Footer = () => {
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
       <div
@@ -9,6 +16,7 @@ const Footer = () => {
         className="d-flex justify-content-center py-2"
       >
         <span
+          onClick={goToTop}
           style={{ cursor: "pointer", fontSize: "16px", fontWeight: "400" }}
           className="text-white small m-0 p-0"
         >
@@ -16,7 +24,7 @@ const Footer = () => {
         </span>
       </div>
       <div className="footer-1">
-        <div className="container d-flex justify-content-evenly">
+        <div className="container foot">
           <div className="footer-links">
             <span>about</span>
             <ul>
@@ -104,7 +112,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="container foot-links ">
+        <div className="container foot-links">
           <div className="footer-links">
             <span>Mail Us:</span>
             <p>

@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { AiFillCaretDown, AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 import "./header.scss";
 
@@ -50,14 +51,18 @@ const Header = () => {
 
   return (
     <>
-      <nav className="navbar text-light">
+      <nav className="navbar text-light sticky-top">
         <div className="container">
+          <button className="hamburger">
+            <RxHamburgerMenu />
+          </button>
+
           <Link to="/" className="logo fs-3 text-white m-0 p-0">
             RizalMart
           </Link>
           <div className="address">
             <p className="m-0 p-0 small lh-1">Deliver to {data.user}</p>
-            <div className="details">
+            <div className="user-details">
               <span className="">
                 <MdOutlineLocationOn />
               </span>

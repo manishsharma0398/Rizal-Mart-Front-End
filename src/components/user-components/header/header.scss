@@ -32,7 +32,7 @@
       flex-direction: column;
       align-items: center;
 
-      .details {
+      .user-details {
         display: flex;
         align-items: flex-start;
         gap: 2px;
@@ -133,9 +133,49 @@
   }
 }
 
+@media only screen and (max-width: 1000px) {
+  .navbar .container {
+    // display: grid;
+    grid-template-areas:
+      "hamburger logo settings cart"
+      "search search search search"
+      "address address address address";
+
+    .orders,
+    .place {
+      display: none;
+    }
+  }
+
+  .hamburger {
+    grid-area: hamburger;
+  }
+  .logo {
+    grid-area: logo;
+  }
+  .settings {
+    grid-area: settings;
+  }
+  .profile {
+    grid-area: profile;
+  }
+  .cart {
+    grid-area: cart;
+  }
+  .search {
+    grid-area: search;
+  }
+  .address {
+    grid-area: address;
+    flex-direction: row !important;
+  }
+}
+
 .categories-menu {
   background-color: #232f3e;
   padding: 8px;
+  height: 110px;
+  overflow: hidden;
 
   .container {
     display: flex;
