@@ -1,15 +1,20 @@
 import { Table } from "antd";
 
-const App = ({ columns, data }) => {
+const App = ({ columns, data, isLoading, onChange }) => {
   return (
-    <div>
+    <>
       <div
         style={{
           marginBottom: 16,
         }}
       ></div>
-      <Table columns={columns} dataSource={data} />
-    </div>
+      <Table
+        onChange={onChange}
+        loading={isLoading}
+        columns={columns}
+        dataSource={data}
+      />
+    </>
   );
 };
 export default App;

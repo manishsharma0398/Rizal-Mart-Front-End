@@ -15,7 +15,6 @@ import Login from "./admin-pages/Login";
 import ResetPassword from "./admin-pages/ResetPassword";
 import ForgotPassword from "./admin-pages/ForgotPassword";
 import Enquiries from "./admin-pages/Enquiries";
-import Blogs from "./admin-pages/Blogs";
 import Orders from "./admin-pages/Orders";
 import Customers from "./admin-pages/Customer";
 import AddProduct from "./admin-pages/product/AddProduct";
@@ -24,6 +23,8 @@ import CategoryList from "./admin-pages/category/CategoryList";
 import AddCategory from "./admin-pages/category/AddCategory";
 import ColourList from "./admin-pages/colour/ColourList";
 import AddColour from "./admin-pages/colour/AddColour";
+import CouponList from "./admin-pages/coupons/CouponsList";
+import AddCoupon from "./admin-pages/coupons/AddCoupon";
 
 import "antd/dist/antd.css";
 import "./App.css";
@@ -42,7 +43,6 @@ const App = () => {
           <Route index element={<Dashboard />} />
 
           <Route path="enquiry" element={<Enquiries />} />
-          <Route path="blogs" element={<Blogs />} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
 
@@ -54,6 +54,9 @@ const App = () => {
 
           <Route path="colour-list" element={<ColourList />} />
           <Route path="add-colour" element={<AddColour />} />
+
+          <Route path="coupon-list" element={<CouponList />} />
+          <Route path="add-coupon" element={<AddCoupon />} />
         </Route>
       </Route>
     )

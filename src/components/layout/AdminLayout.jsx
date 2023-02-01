@@ -52,6 +52,57 @@ const AdminLayout = () => {
               label: "Customers",
             },
             {
+              key: "coupon",
+              icon: <BsFillCartFill className="fs-4" />,
+              label: "Coupons",
+              children: [
+                {
+                  key: "add-coupon",
+                  icon: <BsFillCartPlusFill className="fs-4" />,
+                  label: "Add a coupon",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <BsFillCartPlusFill className="fs-4" />,
+                  label: "Coupon List",
+                },
+              ],
+            },
+            {
+              key: "category",
+              icon: <BsFillCartFill className="fs-4" />,
+              label: "Category",
+              children: [
+                {
+                  key: "add-category",
+                  icon: <BiCategory className="fs-4" />,
+                  label: "Category",
+                },
+                {
+                  key: "category-list",
+                  icon: <BiCategory className="fs-4" />,
+                  label: "Category List",
+                },
+              ],
+            },
+            {
+              key: "colors",
+              icon: <BsFillCartFill className="fs-4" />,
+              label: "Colours",
+              children: [
+                {
+                  key: "add-colour",
+                  icon: <AiOutlineBgColors className="fs-4" />,
+                  label: "Colour",
+                },
+                {
+                  key: "colour-list",
+                  icon: <AiOutlineBgColors className="fs-4" />,
+                  label: "Colour List",
+                },
+              ],
+            },
+            {
               key: "product",
               icon: <BsFillCartFill className="fs-4" />,
               label: "Catalog",
@@ -66,26 +117,6 @@ const AdminLayout = () => {
                   icon: <BsFillCartPlusFill className="fs-4" />,
                   label: "Product List",
                 },
-                {
-                  key: "add-category",
-                  icon: <BiCategory className="fs-4" />,
-                  label: "Category",
-                },
-                {
-                  key: "category-list",
-                  icon: <BiCategory className="fs-4" />,
-                  label: "Category List",
-                },
-                {
-                  key: "add-colour",
-                  icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Colour",
-                },
-                {
-                  key: "colour-list",
-                  icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Colour List",
-                },
               ],
             },
             {
@@ -97,11 +128,6 @@ const AdminLayout = () => {
               key: "enquiry",
               icon: <FaListAlt className="fs-4" />,
               label: "Enquiry",
-            },
-            {
-              key: "blogs",
-              icon: <FaListAlt className="fs-4" />,
-              label: "Blogs",
             },
           ]}
         />

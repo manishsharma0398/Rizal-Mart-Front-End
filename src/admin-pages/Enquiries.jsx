@@ -1,38 +1,77 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import TableComponent from "../components/common-components/TableComponent";
+import {
+  getAllEnquiries,
+  selectEnquiriesData,
+  selectEnquiriesError,
+  selectEnquiriesStatus,
+} from "../features/enquiry/enquirySlice";
 
 const columns = [
   {
     title: "S.No",
-    dataIndex: "key",
+    dataIndex: "slNo",
+    key: "slNo",
   },
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "User",
+    dataIndex: "user",
+    key: "user",
   },
   {
-    title: "Product",
-    dataIndex: "product",
+    title: "Payment Mode",
+    dataIndex: "paymentMode",
+    key: "paymentMode",
   },
   {
     title: "Status",
     dataIndex: "status",
+    key: "status",
+  },
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
   },
 ];
-const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    status: "Processing",
-    product: `London, Park Lane no. ${i}`,
-  });
-}
 
 const Enquiries = () => {
+  const dispatch = useDispatch();
+  const status = useSelector(selectEnquiriesStatus);
+  const error = useSelector(selectEnquiriesError);
+  const enquiries = useSelector(selectEnquiriesData);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // dispatch(getAllEnquiries());
+  }, []);
+
+  const data = [];
+  for (let i = 0; i < enquiries?.length; i++) {
+    const { _id, user, paymentMode, status, products, total } = enquiries[i];
+    data.push({
+      key: _id,
+      slNo: i + 1,
+      user: user.firstname + " " + user.lastname,
+      paymentMode,
+      status,
+      products,
+      total,
+    });
+  }
+
   return (
     <>
       <h3 className="mb-4">Enquiries</h3>
-      <TableComponent columns={columns} data={data} />
+      <TableComponent
+        isLoading={status === "loading"}
+        columns={columns}
+        data={data}
+      />
     </>
   );
 };
