@@ -41,7 +41,6 @@ const Login = () => {
     validationSchema: schema,
     onSubmit: async (values) => {
       dispatch(adminLogin(values));
-      // const d = await instance.post("/auth/login", values);
     },
   });
 

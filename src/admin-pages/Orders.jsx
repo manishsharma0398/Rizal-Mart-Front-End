@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { AiFillDelete } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -17,9 +19,29 @@ const columns = [
     key: "slNo",
   },
   {
-    title: "User",
-    dataIndex: "user",
-    key: "user",
+    title: "Order ID",
+    dataIndex: "orderId",
+    key: "orderId",
+  },
+  {
+    title: "Order Date",
+    dataIndex: "orderedAt",
+    key: "orderedAt",
+  },
+  {
+    title: "Customer",
+    dataIndex: "customer",
+    key: "customer",
+  },
+  {
+    title: "Total Amount",
+    dataIndex: "total",
+    key: "total",
+  },
+  {
+    title: "Order Status",
+    dataIndex: "status",
+    key: "status",
   },
   {
     title: "Payment Mode",
@@ -27,14 +49,9 @@ const columns = [
     key: "paymentMode",
   },
   {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-  },
-  {
-    title: "Total",
-    dataIndex: "total",
-    key: "total",
+    title: "Actions",
+    dataIndex: "action",
+    key: "action",
   },
 ];
 
@@ -52,15 +69,26 @@ const Customers = () => {
 
   const data = [];
   for (let i = 0; i < orders?.length; i++) {
-    const { _id, user, paymentMode, status, products, total } = orders[i];
+    const { _id, user, paymentMode, status, total, createdAt } = orders[i];
     data.push({
       key: _id,
       slNo: i + 1,
-      user: user.firstname + " " + user.lastname,
-      paymentMode,
+      orderId: _id,
+      orderedAt: createdAt,
+      customer: user,
       status,
-      products,
       total,
+      paymentMode,
+      action: (
+        <>
+          <Link to={`/edit/product/${_id}`}>
+            <BiEdit className="fs-4" />
+          </Link>
+          <Link className="text-danger ms-3" to={`/delete/product/${_id}`}>
+            <AiFillDelete className="fs-4" />
+          </Link>
+        </>
+      ),
     });
   }
 

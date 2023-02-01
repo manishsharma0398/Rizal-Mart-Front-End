@@ -8,6 +8,7 @@ import couponSlice from "../features/coupon/couponSlice";
 import colourSlice from "../features/colours/colourSlice";
 import enquiriesSlice from "../features/enquiry/enquirySlice";
 import orderSlice from "../features/orders/ordersSlice";
+import uploadSlice from "../features/upload/uploadSlice";
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     colours: colourSlice,
     enquiries: enquiriesSlice,
     orders: orderSlice,
+    upload: uploadSlice,
   },
 });
 

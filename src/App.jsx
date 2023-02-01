@@ -27,9 +27,15 @@ import CouponList from "./admin-pages/coupons/CouponsList";
 import AddCoupon from "./admin-pages/coupons/AddCoupon";
 
 import "antd/dist/antd.css";
+import "react-widgets/styles.css";
 import "./App.css";
+import { useEffect } from "react";
 
 const App = () => {
+  useEffect(() => {
+    console.log(JSON.parse(localStorage.getItem("rizal_mart")));
+  }, []);
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>

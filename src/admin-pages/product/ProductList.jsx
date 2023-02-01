@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -60,8 +60,6 @@ const ProductList = () => {
   const error = useSelector(selectProductsError);
   const products = useSelector(selectProductsData);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);
@@ -77,7 +75,15 @@ const ProductList = () => {
       price,
       brand,
       color,
-      category,
+      category: (
+        <>
+          {category?.map((cat) => (
+            <span key={cat._id} className="text-primary">
+              {cat.category}
+            </span>
+          ))}
+        </>
+      ),
       action: (
         <>
           <Link to={`/edit/product/${_id}`}>
