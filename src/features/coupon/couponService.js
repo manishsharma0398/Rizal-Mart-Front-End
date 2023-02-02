@@ -1,4 +1,4 @@
-import { makeRequest } from "../../utils/makeRequest";
+import { axiosHeader, makeRequest } from "../../utils/makeRequest";
 
 const getCoupons = async () => {
   const response = await makeRequest.get("/coupon/all");
@@ -6,6 +6,16 @@ const getCoupons = async () => {
   return response;
 };
 
-const couponService = { getCoupons };
+const addCoupon = async (newCouponData) => {
+  const response = await makeRequest.post(
+    "/coupon",
+    newCouponData,
+    axiosHeader
+  );
+
+  return response;
+};
+
+const couponService = { getCoupons, addCoupon };
 
 export default couponService;

@@ -1,2 +1,4 @@
 export const access_token = () =>
-  JSON.parse(localStorage.getItem("rizal_mart")).token;
+  localStorage.getItem("rizal_mart")
+    ? JSON.parse(localStorage.getItem("rizal_mart")).token
+    : null;

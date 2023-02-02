@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import {
   AiOutlineDashboard,
   AiOutlineBgColors,
@@ -16,8 +17,14 @@ import { useState } from "react";
 
 const { Header, Sider, Content } = Layout;
 
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { selectAuthData } from "../../features/auth/authSlice";
+
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+
+  const currentUser = useSelector(selectAuthData);
 
   const navigate = useNavigate();
 
@@ -162,8 +169,10 @@ const AdminLayout = () => {
                 />
               </div>
               <div className="d-flex flex-column gap-1">
-                <h5 className="m-0 p-0 lh-1 fs-6">Manish Sharma</h5>
-                <p className="m-0 p-0 lh-1 small">man06101999@gmail.com</p>
+                <h5 className="m-0 p-0 lh-1 fs-6 d-block">
+                  {currentUser.firstname + " " + currentUser.lastname}
+                </h5>
+                <p className="m-0 p-0 lh-1 small">{currentUser.email}</p>
               </div>
             </div>
           </div>
@@ -175,6 +184,18 @@ const AdminLayout = () => {
             minHeight: 280,
           }}
         >
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Outlet />
         </Content>
       </Layout>

@@ -32,9 +32,9 @@ import "./App.css";
 import { useEffect } from "react";
 
 const App = () => {
-  useEffect(() => {
-    console.log(JSON.parse(localStorage.getItem("rizal_mart")));
-  }, []);
+  // useEffect(() => {
+  //   console.log(JSON.parse(localStorage.getItem("rizal_mart")));
+  // }, []);
 
   const router = createBrowserRouter(
     createRoutesFromElements(

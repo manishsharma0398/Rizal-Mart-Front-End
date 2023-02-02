@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import { Multiselect } from "react-widgets";
+import { toast } from "react-toastify";
 
 import {
   getAllCategories,
@@ -20,25 +21,65 @@ import {
   selectUploadImagesStatus,
   uploadImages,
 } from "../../features/upload/uploadSlice";
+import {
+  addNewProduct,
+  selectProductsData,
+  selectProductsError,
+  selectProductsStatus,
+} from "../../features/product/productSlice";
 
 import CustomInput from "../../components/common-components/CustomInput";
 
 import "react-quill/dist/quill.snow.css";
-import { addNewProduct } from "../../features/product/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategoriesData);
   const colours = useSelector(selectColoursData);
+  const productStatus = useSelector(selectProductsStatus);
+  const productError = useSelector(selectProductsError);
+  const products = useSelector(selectProductsData);
+  const uploadedImagesLink = useSelector(selectUploadImagesData);
+  const imageUploadingError = useSelector(selectUploadImagesError);
+  const imageUploadingStatus = useSelector(selectUploadImagesStatus);
 
   const [imagesToUpload, setImagesToUpload] = useState([]);
 
-  const uploadedImagesLink = useSelector(selectUploadImagesData);
+  const navigate = useNavigate();
+  const imagesUploadingReference = useRef(null);
+  const addingProductReference = useRef(null);
+
+  const uploadingImages = () =>
+    (imagesUploadingReference.current = toast.loading("Uploading Images"));
+  const addingProducts = () =>
+    (addingProductReference.current = toast.loading("Product Adding"));
 
   useEffect(() => {
     dispatch(getAllCategories());
     // dispatch(getAllColours());
   }, []);
+
+  useEffect(() => {
+    if (productStatus === "success") {
+      toast.success("Product Added Successfully");
+    }
+    if (productStatus === "rejected") {
+      toast.error("Cannot add new products");
+    }
+    if (productStatus === "loading") {
+      addingProducts();
+    }
+  }, [productStatus]);
+
+  useEffect(() => {
+    if (imageUploadingStatus === "rejected") {
+      toast.error("Cannot upload images");
+    }
+    if (imageUploadingStatus === "loading") {
+      uploadingImages();
+    }
+  }, [imageUploadingStatus]);
 
   const schema = yup.object({
     title: yup.string().required("Required"),
@@ -66,9 +107,17 @@ const AddProduct = () => {
     onSubmit: async (values) => {
       console.log({ imagesToUpload });
       await dispatch(uploadImages(imagesToUpload));
+      toast.dismiss(imagesUploadingReference.current);
+      if (imageUploadingStatus === "rejected") {
+        toast.dismiss(addingProductReference.current);
+      }
       const newProduct = { ...values, images: uploadedImagesLink };
       console.log(newProduct);
       await dispatch(addNewProduct(newProduct));
+      toast.dismiss(addingProductReference.current);
+      if (productStatus !== "rejected") {
+        return navigate("/admin/product-list");
+      }
     },
   });
 
