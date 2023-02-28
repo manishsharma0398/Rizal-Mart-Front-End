@@ -1,18 +1,12 @@
-import { axiosHeader, makeRequest } from "../../utils/makeRequest";
+import { privateRequest, publicRequest } from "../../utils/APIRequest";
 
 const getCoupons = async () => {
-  const response = await makeRequest.get("/coupon/all");
-
+  const response = await privateRequest.get("/coupon/all");
   return response;
 };
 
 const addCoupon = async (newCouponData) => {
-  const response = await makeRequest.post(
-    "/coupon",
-    newCouponData,
-    axiosHeader
-  );
-
+  const response = await privateRequest.post("/coupon", newCouponData);
   return response;
 };
 

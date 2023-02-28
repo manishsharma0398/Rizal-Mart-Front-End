@@ -1,0 +1,14 @@
+@import "../../config/css-config/mixin.scss";
+
+.form-floating {
+  display: flex;
+  flex-direction: column-reverse;
+
+  input {
+    width: 100%;
+
+    @include md {
+      max-width: 400px;
+    }
+  }
+}

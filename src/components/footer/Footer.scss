@@ -1,0 +1,98 @@
+@import "../../config/css-config/mixin.scss";
+
+footer {
+  .footer-content {
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-flow: wrap;
+    display: flex;
+    gap: 20px;
+
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+
+    @include md {
+      justify-content: space-between;
+      // padding: 50px 0;
+    }
+
+    .col {
+      max-width: 300px;
+
+      .title {
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+
+      .text {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 14px;
+      }
+
+      .c-item {
+        display: flex;
+        margin-bottom: 10px;
+
+        a {
+          //   text-decoration: inherit;
+          color: rgba(0, 0, 0, 0.5);
+        }
+
+        svg {
+          flex-shrink: 0;
+          font-size: 14px;
+          margin-right: 10px;
+          margin-top: 4px;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+
+        li {
+          margin-bottom: 10px;
+
+          .text {
+            text-decoration: inherit;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom-bar {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+    &-content {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+
+      a {
+        color: inherit;
+      }
+
+      @include md {
+        // padding: 0;
+        height: 60px;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+
+      .text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}

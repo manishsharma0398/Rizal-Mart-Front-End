@@ -1,0 +1,32 @@
+@import "../../config/css-config/mixin.scss";
+
+.auth-dropdown {
+  position: absolute;
+  top: 45px;
+  background-color: white;
+  z-index: 90;
+  right: 10px;
+  width: 150px;
+  padding: 10px 15px;
+
+  @include md {
+    right: 42px;
+    top: 70px;
+  }
+
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    li {
+      line-height: 1.1;
+      a {
+        &:hover {
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+}

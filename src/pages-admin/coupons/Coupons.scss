@@ -1,0 +1,8 @@
+@import "../../config/css-config/mixin.scss";
+
+.cta {
+  @include md {
+    max-width: 300px;
+    height: 45px;
+  }
+}

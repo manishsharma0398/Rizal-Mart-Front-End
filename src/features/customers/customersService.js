@@ -1,8 +1,7 @@
-import { makeRequest } from "../../utils/makeRequest";
+import { privateRequest, publicRequest } from "../../utils/APIRequest";
 
 const getUsers = async () => {
-  const response = await makeRequest.get("/user/all");
-
+  const response = await publicRequest.get("/user/all");
   return response;
 };
 

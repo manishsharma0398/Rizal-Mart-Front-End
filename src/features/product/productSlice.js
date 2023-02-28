@@ -9,9 +9,9 @@ const initialState = {
 
 export const getAllProducts = createAsyncThunk(
   "products/get-all",
-  async (thunkAPI) => {
+  async (queries, thunkAPI) => {
     try {
-      const response = await productsService.getProducts();
+      const response = await productsService.getProducts(queries);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

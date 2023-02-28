@@ -1,7 +1,7 @@
-import { makeRequest } from "../../utils/makeRequest";
+import { privateRequest } from "../../utils/APIRequest";
 
 const getColors = async () => {
-  const response = await makeRequest.get("/colors");
+  const response = await privateRequest.get("/colors");
 
   return response;
 };

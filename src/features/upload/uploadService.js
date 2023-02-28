@@ -1,8 +1,8 @@
-import { axiosHeader, makeRequest } from "../../utils/makeRequest";
+import { privateRequest, publicRequest } from "../../utils/APIRequest";
 
 const uploadProductImages = async (images) => {
   console.log({ images });
-  const response = await makeRequest.post(`/images`, images, axiosHeader);
+  const response = await privateRequest.post(`/images`, images, axiosHeader);
 
   return response;
 };

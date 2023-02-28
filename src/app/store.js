@@ -12,7 +12,7 @@ import uploadSlice from "../features/upload/uploadSlice";
 
 const store = configureStore({
   reducer: {
-    user: authSlice,
+    auth: authSlice,
     customer: customerSlice,
     products: productsSlice,
     categories: categorySlice,
@@ -22,6 +22,7 @@ const store = configureStore({
     orders: orderSlice,
     upload: uploadSlice,
   },
+  devTools: import.meta.env.MODE === "development",
 });
 
 export default store;

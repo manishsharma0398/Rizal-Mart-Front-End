@@ -1,13 +1,15 @@
-import { axiosHeader, makeRequest } from "../../utils/makeRequest";
+import { privateRequest, publicRequest } from "../../utils/APIRequest";
 
-const getProducts = async () => {
-  const response = await makeRequest.get("/product");
-
+const getProducts = async (queries) => {
+  const { category } = queries;
+  const response = await publicRequest.get(
+    `/products/?category=${category || ""}`
+  );
   return response;
 };
 
 const addProduct = async (newProduct) => {
-  const response = await makeRequest.post("/product", newProduct, axiosHeader);
+  const response = await privateRequest.post("/product", newProduct);
 
   return response;
 };

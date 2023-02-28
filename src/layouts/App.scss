@@ -1,0 +1,154 @@
+button {
+  background-color: white !important;
+
+  &.ant-pagination-item-link {
+    background-color: white !important;
+  }
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+.ant-layout-sider {
+  flex: 0 0 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  width: 250px !important;
+}
+
+.ant-layout-sider-collapsed {
+  flex: 0 0 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  width: 80px !important;
+}
+
+.sm-logo {
+  display: none;
+}
+
+.ant-layout-sider-collapsed .sm-logo {
+  display: block;
+}
+.ant-layout-sider-collapsed .lg-logo {
+  display: none;
+}
+
+.logo {
+  background-color: #ffdd33;
+  margin: 0;
+  height: 64px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-menu-title-content {
+  font-size: 16px;
+}
+
+main {
+  overflow-y: scroll;
+  height: 85vh;
+}
+
+main::-webkit-scrollbar {
+  width: 0px;
+}
+
+.ant-layout-header div .badge {
+  top: 16px;
+  right: -4px;
+}
+
+.ant-layout-content {
+  background: white !important;
+}
+
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.admin-panel-header {
+  padding: 0 !important;
+  background-color: white !important;
+  display: flex;
+  justify-content: space-between;
+
+  .trigger {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+
+    // line-height: 64px;
+    // cursor: pointer;
+    // transition: color 0.3s;
+
+    // &:hover {
+    //   color: white;
+    // }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 20px;
+
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 4px;
+
+      span {
+        line-height: 1;
+        font-size: 13px;
+      }
+
+      .name {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.ant-menu {
+  display: flex;
+  flex-direction: column;
+  // gap: 5px;
+
+  .ant-menu-item,
+  .ant-menu-submenu {
+    svg {
+      font-size: 24px;
+    }
+  }
+}

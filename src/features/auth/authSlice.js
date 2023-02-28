@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import authService from "./authService";
 
 const initialState = {
@@ -9,8 +10,8 @@ const initialState = {
   error: null,
 };
 
-export const adminLogin = createAsyncThunk(
-  "auth/admin-login",
+export const login = createAsyncThunk(
+  "auth/login",
   async (loginData, thunkAPI) => {
     try {
       const response = await authService.login(loginData);
@@ -27,23 +28,27 @@ export const authSlice = createSlice({
   reducers: () => {},
   extraReducers: (builder) => {
     builder
-      .addCase(adminLogin.pending, (state) => {
-        state.status = "loading";
+      .addCase(login.pending, (state) => {
+        state.status = "logging";
+        state.error = null;
       })
-      .addCase(adminLogin.fulfilled, (state, action) => {
-        state.status = "success";
+      .addCase(login.fulfilled, (state, action) => {
         state.currentUser = action.payload;
+        state.error = null;
+        state.status = "loggedIn";
       })
-      .addCase(adminLogin.rejected, (state, action) => {
+      .addCase(login.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload.message;
+        state.currentUser = null;
       });
   },
 });
 
-export const selectAuthData = (state) => state.user.currentUser;
-export const selectCurrentUser = (state) => state.user.currentUser._id;
-export const selectAuthError = (state) => state.user.error;
-export const selectAuthStatus = (state) => state.user.status;
+export const selectAuthError = (state) => state?.auth?.error;
+export const selectAuthStatus = (state) => state?.auth?.status;
+export const selectUserData = (state) => state?.auth?.currentUser?.user;
+export const selectUserToken = (state) => state?.auth?.currentUser?.token;
+// export const selectUserId = (state) => state?.auth?.currentUser?.user?._id;
 
 export default authSlice.reducer;

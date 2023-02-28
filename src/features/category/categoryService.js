@@ -1,18 +1,12 @@
-import axios from "axios";
-import { axiosHeader, base_url, makeRequest } from "../../utils/makeRequest";
+import { privateRequest, publicRequest } from "../../utils/APIRequest";
 
 const getCategories = async () => {
-  const response = await makeRequest.get("/category");
-
+  const response = await publicRequest.get("/category");
   return response;
 };
 
 const addCategory = async (newCategoryData) => {
-  const response = await makeRequest.post(
-    "/category",
-    newCategoryData,
-    axiosHeader
-  );
+  const response = await privateRequest.post("/category", newCategoryData);
 
   return response;
 };
