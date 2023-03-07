@@ -32,38 +32,12 @@ export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
   }
 });
 
-export const checkTokenExpired = async (thunkAPI) => {
-  try {
-    const token = thunkAPI.getState()?.auth?.currentUser?.token;
-    const decoded = jwt_decode(token);
-    return decoded;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-};
-
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: () => {},
   extraReducers: (builder) => {
     builder
-      // .addCase(checkTokenExpired.pending, (state) => {
-      //   state.status = "logging";
-      //   state.error = null;
-      // })
-      .addCase(checkTokenExpired.fulfilled, (state, action) => {
-        console.log(action.payload);
-        // state.currentUser = action.payload;
-        // state.error = null;
-        // state.status = "loggedIn";
-      })
-      .addCase(checkTokenExpired.rejected, (state, action) => {
-        console.log(action.payload);
-        // state.status = "rejected";
-        // state.error = action.payload.message;
-        // state.currentUser = null;
-      })
       .addCase(login.pending, (state) => {
         state.status = "logging";
         state.error = null;

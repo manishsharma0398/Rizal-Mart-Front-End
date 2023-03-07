@@ -11,8 +11,8 @@ const Categories = () => {
   return (
     <div className="shop-by-category">
       <div className="categories">
-        {categories.map((category) => (
-          <div className="category">
+        {categories.map((category, i) => (
+          <div key={i} className="category">
             {/* <img src={Cat1} alt="" /> */}
             <Link to={`/products/?category=${category?._id}`}>
               {category?.category}

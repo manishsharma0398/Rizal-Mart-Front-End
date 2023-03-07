@@ -53,8 +53,8 @@ const Footer = () => {
         <div className="col">
           <div className="title">Categories</div>
           <ul>
-            {categories.map((category) => (
-              <li>
+            {categories.map((category, i) => (
+              <li key={i}>
                 <Link
                   to={`/products/?category=${category?._id}`}
                   className="text"
