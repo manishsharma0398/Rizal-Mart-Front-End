@@ -1,16 +1,20 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
 
-import TableComponent from "../../components/common-components/TableComponent";
 import {
+  deleteProduct,
   getAllProducts,
   selectProductsData,
   selectProductsError,
   selectProductsStatus,
 } from "../../features/product/productSlice";
+
+import deleteModal from "../../components/modal/DeleteModal";
+
+import TableComponent from "../../components/TableComponent";
 
 const columns = [
   {
@@ -64,9 +68,13 @@ const ProductList = () => {
     dispatch(getAllProducts());
   }, []);
 
+  const deleteProductHandler = async (id) => {
+    await dispatch(deleteProduct(id));
+  };
+
   const data = [];
   for (let i = 0; i < products?.length; i++) {
-    const { _id, title, price, brand, category, color } = products[i];
+    const { _id, title, price, brand, category, color } = products[i] || {};
 
     data.push({
       key: _id,
@@ -76,23 +84,24 @@ const ProductList = () => {
       brand,
       color,
       category: (
-        <>
-          {category?.map((cat) => (
-            <span key={cat._id} className="text-primary">
-              {cat.category}
-            </span>
-          ))}
-        </>
+        <span key={category._id} className="text-primary">
+          {category.category}
+        </span>
       ),
       action: (
-        <>
-          <Link to={`/edit/product/${_id}`}>
-            <BiEdit className="fs-4" />
+        <div className="actions">
+          <Link className="edit-action" to={`/admin/product-update/${_id}`}>
+            <BiEdit />
           </Link>
-          <Link className="text-danger ms-3" to={`/delete/product/${_id}`}>
-            <AiFillDelete className="fs-4" />
-          </Link>
-        </>
+          <button
+            className="delete-action"
+            onClick={() =>
+              deleteModal(() => deleteProductHandler(_id), "Product")
+            }
+          >
+            <AiFillDelete />
+          </button>
+        </div>
       ),
     });
   }

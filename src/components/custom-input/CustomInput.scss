@@ -12,3 +12,11 @@
     }
   }
 }
+
+.dropdown {
+  width: 100%;
+
+  @include md {
+    max-width: 400px;
+  }
+}

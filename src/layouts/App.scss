@@ -152,3 +152,30 @@ main::-webkit-scrollbar {
     }
   }
 }
+
+.actions {
+  display: flex;
+  gap: 12px;
+
+  .edit-action,
+  .delete-action {
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .edit-action {
+    color: #242b2e;
+
+    &:hover {
+      opacity: 0.69;
+    }
+  }
+
+  .delete-action {
+    color: #e21717;
+
+    &:hover {
+      opacity: 0.69;
+    }
+  }
+}

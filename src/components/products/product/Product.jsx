@@ -1,16 +1,26 @@
+import { Link } from "react-router-dom";
 import "./Product.scss";
 
-import Pic from "../../../assets/products/headphone-prod-1.webp";
+const Product = ({ product }) => {
+  const { _id, title, price, fakePrice, images } = product;
 
-const Product = () => {
   return (
     <div className="product-card">
       <div className="thumbnail">
-        <img src={Pic} alt="" />
+        <img src={images[0]?.url} alt="" />
       </div>
       <div className="product-details">
-        <span className="name">Product name</span>
-        <span className="price">&#8377; 999</span>
+        <Link to={`/products/${_id}`} className="name">
+          {title}
+        </Link>
+        <span className="price">
+          &#8377; &nbsp;
+          <span style={{ textDecoration: "line-through" }}>
+            {fakePrice}
+          </span>{" "}
+          &nbsp;
+          {price}
+        </span>
       </div>
     </div>
   );

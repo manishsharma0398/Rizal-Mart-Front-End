@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
 
 import authService from "./authService";
 
@@ -22,12 +23,47 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
+  try {
+    const response = await authService.logout();
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
+export const checkTokenExpired = async (thunkAPI) => {
+  try {
+    const token = thunkAPI.getState()?.auth?.currentUser?.token;
+    const decoded = jwt_decode(token);
+    return decoded;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: () => {},
   extraReducers: (builder) => {
     builder
+      // .addCase(checkTokenExpired.pending, (state) => {
+      //   state.status = "logging";
+      //   state.error = null;
+      // })
+      .addCase(checkTokenExpired.fulfilled, (state, action) => {
+        console.log(action.payload);
+        // state.currentUser = action.payload;
+        // state.error = null;
+        // state.status = "loggedIn";
+      })
+      .addCase(checkTokenExpired.rejected, (state, action) => {
+        console.log(action.payload);
+        // state.status = "rejected";
+        // state.error = action.payload.message;
+        // state.currentUser = null;
+      })
       .addCase(login.pending, (state) => {
         state.status = "logging";
         state.error = null;
@@ -38,6 +74,22 @@ export const authSlice = createSlice({
         state.status = "loggedIn";
       })
       .addCase(login.rejected, (state, action) => {
+        state.status = "rejected";
+        state.error = action.payload.message;
+        state.currentUser = null;
+      })
+      .addCase(logout.pending, (state) => {
+        state.status = "logging-out";
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.currentUser = null;
+        state.error = null;
+        state.status = "idle";
+        localStorage.setItem("rizal_mart", "");
+        localStorage.removeItem("rizal_mart");
+      })
+      .addCase(logout.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload.message;
         state.currentUser = null;

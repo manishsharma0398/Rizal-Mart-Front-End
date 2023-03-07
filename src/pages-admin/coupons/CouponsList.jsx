@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  deleteCoupon,
   getAllCoupons,
   selectCouponsData,
   selectCouponsError,
@@ -13,6 +14,7 @@ import {
 import { selectUserData } from "../../features/auth/authSlice";
 
 import TableComponent from "../../components/TableComponent";
+import deleteModal from "../../components/modal/DeleteModal";
 
 import "./Coupons.scss";
 
@@ -57,26 +59,33 @@ const CouponList = () => {
     dispatch(getAllCoupons());
   }, []);
 
+  const deleteCouponHandler = async (id) => {
+    await dispatch(deleteCoupon(id));
+  };
+
   const data = [];
   for (let i = 0; i < coupons?.length; i++) {
-    const { _id, name, expiry, discount, user } = coupons[i];
+    const { _id, name, expiry, discount, discountType } = coupons[i];
 
     data.push({
       key: _id,
       slNo: i + 1,
       name,
       expiry: new Date() > new Date(expiry) ? "Expired" : "Active",
-      discount: discount + "%",
+      discount: discountType === "money" ? "₹ " + discount : `${discount} %`,
       actions: (
-        <>
-          <Link to={`/edit/product/${_id}`}>
+        <div className="actions">
+          <Link className="edit-action" to={`/admin/coupon-update/${_id}`}>
             <BiEdit size={20} />
           </Link>
           &nbsp; &nbsp;
-          <Link className="text-danger ms-3" to={`/delete/product/${_id}`}>
+          <button
+            onClick={() => deleteModal(() => deleteCouponHandler(_id))}
+            className="delete-action"
+          >
             <AiFillDelete size={20} />
-          </Link>
-        </>
+          </button>
+        </div>
       ),
     });
   }
@@ -88,7 +97,7 @@ const CouponList = () => {
         Add Coupon
       </Link>
       <TableComponent
-        isLoading={status === "loading"}
+        isLoading={status === "loading" || status === "deleting"}
         columns={columns}
         data={data}
       />

@@ -4,8 +4,12 @@ import { FaEnvelope, FaLocationArrow, FaMobileAlt } from "react-icons/fa";
 import Payment from "../../assets/payments.png";
 
 import "./Footer.scss";
+import { useSelector } from "react-redux";
+import { selectCategoriesData } from "../../features/category/categorySlice";
 
 const Footer = () => {
+  const categories = useSelector(selectCategoriesData);
+
   return (
     <footer id="footer">
       <div className="footer-content">
@@ -49,41 +53,16 @@ const Footer = () => {
         <div className="col">
           <div className="title">Categories</div>
           <ul>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
-            <li>
-              <Link to="/headphones" className="text">
-                Headphones
-              </Link>
-            </li>
+            {categories.map((category) => (
+              <li>
+                <Link
+                  to={`/products/?category=${category?._id}`}
+                  className="text"
+                >
+                  {category?.category}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="col">

@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import TableComponent from "../../components/common-components/TableComponent";
 import {
+  deleteCategory,
   getAllCategories,
   selectCategoriesData,
   selectCategoriesError,
   selectCategoriesStatus,
 } from "../../features/category/categorySlice";
+
+import TableComponent from "../../components/TableComponent";
+import deleteModal from "../../components/modal/DeleteModal";
+
+import "./Category.scss";
 
 const columns = [
   {
@@ -22,8 +27,8 @@ const columns = [
     title: "Category",
     dataIndex: "category",
     key: "category",
-    defaultSortOrder: "descend",
-    sorter: (a, b) => a.category - b.category,
+    defaultSortOrder: "",
+    sorter: (a, b) => a.category.localeCompare(b.category),
   },
   {
     title: "Action",
@@ -44,6 +49,10 @@ const CategoryList = () => {
     dispatch(getAllCategories());
   }, []);
 
+  const deleteCatHandler = async (id) => {
+    await dispatch(deleteCategory(id));
+  };
+
   const data = [];
   for (let i = 0; i < categories?.length; i++) {
     const { _id, category } = categories[i];
@@ -54,23 +63,27 @@ const CategoryList = () => {
       category: category[0].toUpperCase() + category.slice(1),
 
       action: (
-        <>
-          <Link to={`/edit/product/${_id}`}>
-            <BiEdit className="fs-4" />
+        <div className="actions">
+          <Link className="edit-action" to={`/admin/category-update/${_id}`}>
+            <BiEdit />
           </Link>
-          <Link className="text-danger ms-3" to={`/delete/product/${_id}`}>
-            <AiFillDelete className="fs-4" />
-          </Link>
-        </>
+          <button
+            className="delete-action"
+            onClick={() => deleteModal(() => deleteCatHandler(_id), "category")}
+          >
+            <AiFillDelete />
+          </button>
+        </div>
       ),
     });
   }
 
   return (
     <>
-      <h3 className="mb-4">Categories</h3>
+      {/* <AddCategory /> */}
+      <h3 className="">Categories</h3>
       <TableComponent
-        isLoading={status === "loading"}
+        isLoading={status === "loading" || status === "deleting"}
         columns={columns}
         data={data}
       />

@@ -22,22 +22,19 @@ import Home from "./pages/home/Home";
 import Products from "./pages/products/Products";
 import SingleProduct from "./pages/single-product/SingleProduct";
 
+import Orders from "./pages-admin/Orders";
+import Enquiries from "./pages-admin/Enquiries";
 import Dashboard from "./pages-admin/Dashboard";
 import Customers from "./pages-admin/Customer";
 import AddCoupon from "./pages-admin/coupons/AddCoupon";
 import CouponList from "./pages-admin/coupons/CouponsList";
+import AddProduct from "./pages-admin/product/AddProduct";
+import ProductList from "./pages-admin/product/ProductList";
+import AddCategory from "./pages-admin/category/AddCategory";
+import CategoryList from "./pages-admin/category/CategoryList";
 
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
-
-// import AddColour from "./admin-pages/colour/AddColour";
-// import Enquiries from "./admin-pages/Enquiries";
-// import Orders from "./admin-pages/Orders";
-// import AddProduct from "./admin-pages/product/AddProduct";
-// import ProductList from "./admin-pages/product/ProductList";
-// import CategoryList from "./admin-pages/category/CategoryList";
-// import AddCategory from "./admin-pages/category/AddCategory";
-// import ColourList from "./admin-pages/colour/ColourList";
 
 // import "react-widgets/styles.css";
 
@@ -49,17 +46,24 @@ const App = () => {
           <Route element={<OnlyAuthUser allowedRoles={["admin"]} />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="enquiry" element={<Enquiries />} />
               <Route path="customers" element={<Customers />} />
               <Route path="coupon-list" element={<CouponList />} />
               <Route path="coupon-add" element={<AddCoupon />} />
-              {/* <Route path="enquiry" element={<Enquiries />} /> */}
-              {/* <Route path="orders" element={<Orders />} /> */}
-              {/* <Route path="add-product" element={<AddProduct />} /> */}
-              {/* <Route path="product-list" element={<ProductList />} /> */}
-              {/* <Route path="category-list" element={<CategoryList />} /> */}
-              {/* <Route path="add-category" element={<AddCategory />} /> */}
-              {/* <Route path="colour-list" element={<ColourList />} /> */}
-              {/* <Route path="add-colour" element={<AddColour />} /> */}
+              <Route path="coupon-update/:couponId" element={<AddCoupon />} />
+              <Route path="product-add" element={<AddProduct />} />
+              <Route
+                path="product-update/:productId"
+                element={<AddProduct />}
+              />
+              <Route path="product-list" element={<ProductList />} />
+              <Route path="category-list" element={<CategoryList />} />
+              <Route path="category-add" element={<AddCategory />} />
+              <Route
+                path="category-update/:categoryId"
+                element={<AddCategory />}
+              />
             </Route>
           </Route>
 

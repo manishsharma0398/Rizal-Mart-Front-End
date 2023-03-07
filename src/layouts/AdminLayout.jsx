@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Layout, Menu } from "antd";
 const { Header, Sider, Content } = Layout;
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaListAlt } from "react-icons/fa";
 import { BiCategory } from "react-icons/bi";
 import { ToastContainer } from "react-toastify";
@@ -17,7 +17,7 @@ import {
   AiOutlineLogout,
 } from "react-icons/ai";
 
-import { selectUserData } from "../features/auth/authSlice";
+import { selectUserData, logout } from "../features/auth/authSlice";
 
 import "./App.scss";
 
@@ -27,6 +27,7 @@ const AdminLayout = () => {
   const currentUser = useSelector(selectUserData);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <Layout>
@@ -39,8 +40,9 @@ const AdminLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[""]}
-          onClick={({ key }) => {
+          onClick={async ({ key }) => {
             if (key == "logout") {
+              await dispatch(logout());
             } else {
               navigate(key);
             }
@@ -64,12 +66,12 @@ const AdminLayout = () => {
                 {
                   key: "coupon-add",
                   icon: <BsFillCartPlusFill className="fs-4" />,
-                  label: "Add a coupon",
+                  label: "Add coupon",
                 },
                 {
                   key: "coupon-list",
                   icon: <BsFillCartPlusFill className="fs-4" />,
-                  label: "Coupon List",
+                  label: "All Coupons",
                 },
               ],
             },
@@ -79,48 +81,31 @@ const AdminLayout = () => {
               label: "Category",
               children: [
                 {
-                  key: "add-category",
+                  key: "category-add",
                   icon: <BiCategory className="fs-4" />,
-                  label: "Category",
+                  label: "Add Category",
                 },
                 {
                   key: "category-list",
                   icon: <BiCategory className="fs-4" />,
-                  label: "Category List",
-                },
-              ],
-            },
-            {
-              key: "colors",
-              icon: <BsFillCartFill className="fs-4" />,
-              label: "Colours",
-              children: [
-                {
-                  key: "add-colour",
-                  icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Colour",
-                },
-                {
-                  key: "colour-list",
-                  icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Colour List",
+                  label: "All Categories",
                 },
               ],
             },
             {
               key: "product",
               icon: <BsFillCartFill className="fs-4" />,
-              label: "Catalog",
+              label: "Products",
               children: [
                 {
-                  key: "add-product",
+                  key: "product-add",
                   icon: <BsFillCartPlusFill className="fs-4" />,
-                  label: "Add a Product",
+                  label: "Add Product",
                 },
                 {
                   key: "product-list",
                   icon: <BsFillCartPlusFill className="fs-4" />,
-                  label: "Product List",
+                  label: "All Products",
                 },
               ],
             },

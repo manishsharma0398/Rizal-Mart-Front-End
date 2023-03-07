@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   FaCartPlus,
   FaFacebookF,
@@ -12,8 +12,23 @@ import Img from "../../assets/products/speaker-prod-1.webp";
 import RelatedProducts from "../../components/related-products/RelatedProducts";
 
 import "./SingleProduct.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+  getAProduct,
+  selectSingleProduct,
+} from "../../features/product/productSlice";
+import ReactQuill from "react-quill";
 
 const SingleProduct = () => {
+  const dispatch = useDispatch();
+  const productId = useParams().productId;
+  const singleProduct = useSelector(selectSingleProduct) || {};
+
+  useEffect(() => {
+    dispatch(getAProduct(productId));
+  }, []);
+
   return (
     <div className="single-product-main-content">
       <div className="layout">
@@ -22,9 +37,15 @@ const SingleProduct = () => {
             <img src={Img} alt="" />
           </div>
           <div className="right">
-            <span className="name">Product name</span>
-            <span className="price">Price</span>
-            <span className="desc">Description</span>
+            <span className="name">{singleProduct?.title}</span>
+            <span className="price">{singleProduct.price}</span>
+            <ReactQuill
+              className="desc"
+              readOnly
+              value={singleProduct?.description}
+              theme="bubble"
+            />
+            {/* <span className="desc">{singleProduct?.description}</span> */}
 
             <div className="cart-buttons">
               <div className="quantity-buttons">
@@ -42,7 +63,7 @@ const SingleProduct = () => {
             <div className="info-item">
               <span className="text-bold">
                 Category &nbsp;
-                <span>Speakers</span>
+                <span>{singleProduct?.category?.category}</span>
               </span>
               <span className="text-bold">
                 Share &nbsp;

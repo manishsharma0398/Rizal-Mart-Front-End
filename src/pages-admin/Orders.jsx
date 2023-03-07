@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
+import { AiFillDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import TableComponent from "../components/common-components/TableComponent";
 import {
   getAllOrders,
   selectOrdersData,
   selectOrdersError,
   selectOrdersStatus,
 } from "../features/orders/ordersSlice";
+
+import TableComponent from "../components/TableComponent";
 
 const columns = [
   {

@@ -11,7 +11,7 @@ const App = ({ columns, data, isLoading, onChange }) => {
       <Table
         onChange={onChange}
         loading={isLoading}
-        columns={columns}
+        columns={columns || 20}
         dataSource={data}
       />
     </>

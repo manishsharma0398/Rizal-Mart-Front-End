@@ -18,6 +18,8 @@
     "bootstrap": "^5.2.3",
     "formik": "^2.2.9",
     "hex-color-to-color-name": "^1.0.2",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",

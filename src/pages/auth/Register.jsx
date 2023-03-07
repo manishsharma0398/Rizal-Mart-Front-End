@@ -12,7 +12,7 @@ import {
 } from "../../features/auth/authSlice";
 
 import CustomInput from "../../components/custom-input/CustomInput";
-import AuthFeedback from "../../components/auth-feedback/AuthFeedback";
+import Feedback from "../../components/feedback/Feedback";
 
 import "./Auth.scss";
 
@@ -56,7 +56,7 @@ const Register = () => {
         </div>
 
         {status === "rejected" && error && (
-          <AuthFeedback msg={error} type="error" />
+          <Feedback msg={error} type="error" />
         )}
 
         <div className="inputs">

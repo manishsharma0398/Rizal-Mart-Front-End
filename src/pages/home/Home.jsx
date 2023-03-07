@@ -9,15 +9,31 @@ import Products from "../../components/products/Products";
 import Categories from "../../components/categories/Categories";
 
 import "./Home.scss";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllProducts,
+  selectProductsData,
+} from "../../features/product/productSlice";
+import { getAllCategories } from "../../features/category/categorySlice";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  const allProducts = useSelector(selectProductsData);
+
+  useEffect(() => {
+    dispatch(getAllProducts({ limit: 8, popular: true }));
+    dispatch(getAllCategories());
+  }, []);
+
   return (
     <div>
       <Banner />
       <div className="main-content">
         <div className="layout">
           <Categories />
-          <Products headingText="Popular Products" />
+          <Products headingText="Popular Products" products={allProducts} />
         </div>
       </div>
     </div>

@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import TableComponent from "../components/common-components/TableComponent";
 import {
   getAllEnquiries,
   selectEnquiriesData,
   selectEnquiriesError,
   selectEnquiriesStatus,
 } from "../features/enquiry/enquirySlice";
+
+import TableComponent from "../components/TableComponent";
 
 const columns = [
   {

@@ -26,14 +26,18 @@ body {
   font-weight: 500;
 }
 
-input {
-  width: 200px;
+input,
+.dropdown {
   height: 40px;
   border-radius: 0;
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 0 12px;
   font-size: 16px;
   outline: none;
+}
+
+input {
+  width: 200px;
 
   @include md {
     width: 300px;
@@ -79,10 +83,13 @@ a {
 }
 
 button {
-  height: 40px;
+  // height: 40px;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
 }
 
-button,
+.btn,
 .cta {
   outline: 0;
   border: 0;
@@ -99,4 +106,8 @@ button,
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+}
+
+.text-danger {
+  color: red;
 }

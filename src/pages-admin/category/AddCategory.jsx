@@ -1,33 +1,43 @@
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
-  resetReducer,
   addNewCategory,
-  selectCategoriesError,
-  selectCategoriesStatus,
+  clearSingleCategory,
+  getACategory,
+  selectSingleCategoryData,
+  selectSingleCategoryError,
+  selectSingleCategoryStatus,
+  updateCategory,
 } from "../../features/category/categorySlice";
 
-import CustomInput from "../../components/common-components/CustomInput";
+import CustomInput from "../../components/custom-input/CustomInput";
+
+import "./Category.scss";
 
 const AddCategory = () => {
   const loadingToast = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const categoriesError = useSelector(selectCategoriesError);
-  const categoriesStatus = useSelector(selectCategoriesStatus);
+  const category = useSelector(selectSingleCategoryData);
+  const categoriesError = useSelector(selectSingleCategoryError);
+  const categoriesStatus = useSelector(selectSingleCategoryStatus);
+
+  const editCategoryMode = useParams().categoryId;
+
+  useEffect(() => {
+    dispatch(clearSingleCategory());
+    if (editCategoryMode) dispatch(getACategory(editCategoryMode));
+  }, []);
 
   const notifyLoading = () =>
     (loadingToast.current = toast.loading("Adding New Category"));
 
   useEffect(() => {
-    if (categoriesStatus === "loading") {
-      notifyLoading();
-    }
     if (categoriesStatus === "rejected") {
       toast.error(`${categoriesError}`);
       return;
@@ -43,13 +53,20 @@ const AddCategory = () => {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      category: "",
+      category: category?.category || "",
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      console.log(values);
-      await dispatch(addNewCategory(values));
+      notifyLoading();
+
+      if (editCategoryMode) {
+        await dispatch(updateCategory({ ...values, id: editCategoryMode }));
+      } else {
+        await dispatch(addNewCategory(values));
+      }
+
       toast.dismiss(loadingToast.current);
 
       // if (couponStatus === "success" && couponError === null) {
@@ -61,33 +78,29 @@ const AddCategory = () => {
 
   return (
     <>
-      <h3 className="mb-4">Add Category</h3>
-      <div className="">
-        <form onSubmit={formik.handleSubmit}>
-          {categoriesError && categoriesStatus === "rejected" && (
-            <div className="error">{categoriesError}</div>
-          )}
+      <h3>{editCategoryMode ? "Update" : "Add"} Category</h3>
 
-          <CustomInput
-            type="text"
-            label="Enter New Category"
-            onChange={formik.handleChange("category")}
-            value={formik.values.category}
-          />
-          <div className="error">
-            {formik.touched.category && formik.errors.category ? (
-              <div>{formik.errors.category}</div>
-            ) : null}
-          </div>
+      {categoriesError && categoriesStatus === "rejected" && (
+        <div className="error">{categoriesError}</div>
+      )}
 
-          <button
-            type="submit"
-            className="btn btn-success border-0 rounded-3 mt-3"
-          >
-            Add Category
-          </button>
-        </form>
-      </div>
+      <form onSubmit={formik.handleSubmit}>
+        <CustomInput
+          type="text"
+          label={!editCategoryMode ? "Enter New Category" : "Enter Category"}
+          value={formik.values.category}
+          error={formik.errors.category}
+          touched={formik.touched.category}
+          onChange={formik.handleChange("category")}
+        />
+
+        <button
+          type="submit"
+          className="btn btn-success border-0 rounded-3 mt-3"
+        >
+          {editCategoryMode ? "Update" : "Add"} Category
+        </button>
+      </form>
     </>
   );
 };

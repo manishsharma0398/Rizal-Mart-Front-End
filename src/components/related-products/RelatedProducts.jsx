@@ -5,7 +5,7 @@ import "./RelatedProducts.scss";
 const RelatedProducts = () => {
   return (
     <div className="related-products">
-      <Products headingText="Related Products" />
+      <Products products={[]} headingText="Related Products" />
     </div>
   );
 };

@@ -1,41 +1,41 @@
 import * as yup from "yup";
+import moment from "moment";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
+  getACoupon,
   addNewCoupon,
-  selectCouponsError,
-  selectCouponsStatus,
+  updateCoupon,
+  clearSingleCoupon,
+  selectSingleCoupon,
+  selectSingleCouponError,
+  selectSingleCouponStatus,
 } from "../../features/coupon/couponSlice";
 
+import Feedback from "../../components/feedback/Feedback";
 import CustomInput from "../../components/custom-input/CustomInput";
-import { useEffect, useRef } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const AddCoupon = () => {
   const loadingToast = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const couponError = useSelector(selectCouponsError);
-  const couponStatus = useSelector(selectCouponsStatus);
+  const singleCoupon = useSelector(selectSingleCoupon);
+  const singleCouponErr = useSelector(selectSingleCouponError);
+  const singleCouponStatus = useSelector(selectSingleCouponStatus);
+
+  const editCouponMode = useParams().couponId;
+
+  useEffect(() => {
+    dispatch(clearSingleCoupon());
+    if (editCouponMode) dispatch(getACoupon(editCouponMode));
+  }, []);
 
   const notifyLoading = () =>
     (loadingToast.current = toast.loading("Adding New Coupon"));
-
-  useEffect(() => {
-    if (couponStatus === "loading") {
-      notifyLoading();
-    }
-    if (couponStatus === "rejected") {
-      toast.error(`${couponError}`);
-      return;
-    }
-    if (couponStatus === "succeed") {
-      toast.success("New coupon added");
-      return navigate("/admin/coupon-list");
-    }
-  }, [couponStatus]);
 
   const schema = yup.object({
     // ? only uppercase and _ allowed
@@ -46,32 +46,45 @@ const AddCoupon = () => {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      name: "",
-      expiry: "",
-      discount: "",
-      discountType: "",
+      name: singleCoupon?.name || "",
+      expiry: moment(singleCoupon?.expiry).format().split("T")[0] || "",
+      discount: singleCoupon?.discount || "",
+      discountType: singleCoupon?.discountType || "",
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      console.log(values);
-      await dispatch(addNewCoupon(values));
+      notifyLoading();
+      if (editCouponMode) {
+        await dispatch(updateCoupon({ ...values, id: editCouponMode }));
+      } else {
+        await dispatch(addNewCoupon(values));
+      }
       toast.dismiss(loadingToast.current);
+
+      if (singleCouponStatus === "rejected")
+        return toast.error(`${couponError}`);
+
+      if (singleCouponStatus === "succeed") toast.success("New coupon added");
+
+      if (singleCouponStatus === "updated") toast.success("Coupon updated");
+
+      if (singleCouponStatus === "succeed" || singleCouponStatus === "updated")
+        return navigate("/admin/coupon-list");
     },
   });
 
   return (
     <>
-      <h3 className="mb-4">Add Coupon</h3>
+      <h3 className="mb-4"> {editCouponMode ? "Update" : "Add"} Coupon</h3>
       <div className="">
         <form onSubmit={formik.handleSubmit}>
-          {couponError && couponStatus === "rejected" && (
-            <div className="error">{couponError}</div>
-          )}
+          {singleCouponErr && <Feedback msg={singleCouponErr} type="error" />}
 
           <CustomInput
             type="text"
-            label="Enter Coupon Name"
+            label="Enter Coupon Name (UPPERCASE)"
             onChange={formik.handleChange("name")}
             value={formik.values.name}
           />
@@ -104,7 +117,7 @@ const AddCoupon = () => {
           </div>
 
           <select
-            className="form-control py-3 mt-3"
+            className="dropdown"
             name="discountType"
             id="discountType"
             value={formik.values.discountType}
@@ -129,7 +142,7 @@ const AddCoupon = () => {
           </div>
 
           <button type="submit" className="cta">
-            Add Coupon
+            {editCouponMode ? "Update" : "Add"} Coupon
           </button>
         </form>
       </div>

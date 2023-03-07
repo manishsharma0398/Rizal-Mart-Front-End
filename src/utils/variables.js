@@ -1,0 +1,1 @@
+export const DEFAULT_GET_PRODUCT_LIMIT = 20;
