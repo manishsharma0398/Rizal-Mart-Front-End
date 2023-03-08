@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import BannerImg from "../../assets/banner-img.png";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   getBannerProducts,
   selectBannerProducts,
@@ -43,7 +43,7 @@ const Banner = () => {
         <img
           className="banner-img"
           src={bannerData[0]?.images[0]?.url}
-          alt=""
+          alt={bannerData[0]?.title}
         />
       </div>
     </div>

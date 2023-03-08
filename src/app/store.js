@@ -10,6 +10,7 @@ import enquiriesSlice from "../features/enquiry/enquirySlice";
 import orderSlice from "../features/orders/ordersSlice";
 import uploadSlice from "../features/upload/uploadSlice";
 import cartSlice from "../features/cart/cartSlice";
+import wishlistSlice from "../features/wishlist/wishlistSlice";
 
 const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ const store = configureStore({
     enquiries: enquiriesSlice,
     orders: orderSlice,
     upload: uploadSlice,
+    wishlist: wishlistSlice,
   },
   devTools: import.meta.env.MODE === "development",
 });

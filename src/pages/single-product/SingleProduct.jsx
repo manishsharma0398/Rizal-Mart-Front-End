@@ -16,6 +16,7 @@ import {
   GrFormPrevious,
   GrFormUp,
 } from "react-icons/gr";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 import {
   getAProduct,
@@ -27,10 +28,15 @@ import {
   selectCartItems,
 } from "../../features/cart/cartSlice";
 
+import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
+
 import RelatedProducts from "../../components/related-products/RelatedProducts";
+import {
+  addToWishlist,
+  selectWishListProducts,
+} from "../../features/wishlist/wishlistSlice";
 
 import "./SingleProduct.scss";
-import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
 
 const SingleProduct = () => {
   const imageContainerRef = useRef();
@@ -42,8 +48,9 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const productId = useParams().productId;
 
-  const singleProduct = useSelector(selectSingleProduct) || {};
   const cartItems = useSelector(selectCartItems);
+  const wishlistProducts = useSelector(selectWishListProducts);
+  const singleProduct = useSelector(selectSingleProduct) || {};
 
   useEffect(() => {
     dispatch(getAProduct(productId));
@@ -54,7 +61,6 @@ const SingleProduct = () => {
   };
 
   const productQuantityHandler = (type) => {
-    console.log(type);
     const MIN = 1;
     const MAX = 10;
 
@@ -126,10 +132,21 @@ const SingleProduct = () => {
     );
   };
 
-  useEffect(() => {
-    const d = productAlreadyInCart();
-    console.log(d);
-  }, [cartItems]);
+  const productAlreadyInWishlist = () => {
+    return wishlistProducts?.some(
+      (prod) => prod?.product?._id === singleProduct?._id
+    );
+  };
+
+  const addToWishListHandler = () => {
+    // console.log(singleProduct?._id);
+    dispatch(addToWishlist({ productId: singleProduct?._id }));
+  };
+
+  // useEffect(() => {
+  //   const d = productAlreadyInCart();
+  //   console.log(d);
+  // }, [cartItems]);
 
   return (
     singleProduct && (
@@ -213,7 +230,7 @@ const SingleProduct = () => {
                 theme="bubble"
               />
 
-              {productAlreadyInCart() ? (
+              {/* {productAlreadyInCart() ? (
                 <div className="cart-buttons">
                   <div className="cart-buttons-text">
                     <h3>Item already in cart</h3>
@@ -243,7 +260,54 @@ const SingleProduct = () => {
                     <FaCartPlus size={20} /> ADD TO CART
                   </button>
                 </div>
-              )}
+              )} */}
+
+              <div className="cart-buttons">
+                {productAlreadyInCart() ? (
+                  <div className="cart-buttons-text">
+                    <h3>Item already in cart</h3>
+                  </div>
+                ) : (
+                  <div className="quantity-buttons">
+                    <span onClick={() => productQuantityHandler("decrement")}>
+                      -
+                    </span>
+                    <span>{productQuantityInCart}</span>
+                    <span onClick={() => productQuantityHandler("increment")}>
+                      +
+                    </span>
+                  </div>
+                )}
+                {productAlreadyInCart() ? (
+                  <button
+                    onClick={() => dispatch(cartToggler(true))}
+                    className="go-to-cart-button"
+                  >
+                    <FaCartPlus size={20} /> &nbsp; GO TO CART
+                  </button>
+                ) : (
+                  <button
+                    onClick={addProductToCartHandler}
+                    className="add-to-cart-button"
+                  >
+                    <FaCartPlus size={20} /> &nbsp; ADD TO CART
+                  </button>
+                )}
+                <button
+                  onClick={addToWishListHandler}
+                  className="add-to-wishlist-button"
+                >
+                  {productAlreadyInWishlist() ? (
+                    <>
+                      <AiOutlineHeart size={20} /> &nbsp; REMOVE FROM WISHLIST
+                    </>
+                  ) : (
+                    <>
+                      <AiFillHeart size={20} /> &nbsp; ADD TO WISHLIST
+                    </>
+                  )}
+                </button>
+              </div>
 
               <span className="divider" />
 

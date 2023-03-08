@@ -5,21 +5,22 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { CgShoppingCart } from "react-icons/cg";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import useAuth from "../../hooks/useAuth";
-
-import Cart from "../cart/Cart";
-import Search from "../search/Search";
-import AuthDropdown from "../auth-dropdown/AuthDropdown";
-
-import "./Header.scss";
-import { useDispatch, useSelector } from "react-redux";
 import {
   cartToggler,
   getCartItems,
   selectCartItems,
   selectShowCart,
 } from "../../features/cart/cartSlice";
+import { getWishlistProducts } from "../../features/wishlist/wishlistSlice";
+
+import Cart from "../cart/Cart";
+import Search from "../search/Search";
+import AuthDropdown from "../auth-dropdown/AuthDropdown";
+
+import "./Header.scss";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -47,6 +48,7 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     isLoggedIn && dispatch(getCartItems());
+    isLoggedIn && dispatch(getWishlistProducts());
   }, []);
 
   const openSearchHandler = () => setShowSearch(true);
