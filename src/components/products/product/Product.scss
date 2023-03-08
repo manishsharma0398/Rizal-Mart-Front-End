@@ -30,6 +30,7 @@
       transition: all ease 0.3s;
       display: block;
       height: 100%;
+      mix-blend-mode: darken;
 
       @include md {
         width: 100%;

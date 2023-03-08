@@ -53,7 +53,7 @@
         cursor: pointer;
         font-size: 16px;
         color: white;
-        background-color: #8e2de2;
+        background-color: #8e2de2 !important;
 
         @include md {
           width: 120px;
