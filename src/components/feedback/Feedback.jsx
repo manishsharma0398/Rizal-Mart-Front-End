@@ -1,13 +1,15 @@
 import { MdClose } from "react-icons/md";
 
-const AuthFeedback = ({ type, msg }) => {
+const Feedback = ({ type, msg, showClose = true }) => {
   return (
     <div className={`feedback feedback-${type}`}>
       <span className="">{msg}</span>
-      <span className="close">
-        <MdClose />
-      </span>
+      {showClose && (
+        <span className="close">
+          <MdClose />
+        </span>
+      )}
     </div>
   );
 };
-export default AuthFeedback;
+export default Feedback;

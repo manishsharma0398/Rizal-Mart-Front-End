@@ -13,7 +13,7 @@ export const privateRequest = axios.create({
 });
 
 privateRequest.interceptors.request.use(async function (config) {
-  // const token = store?.getState()?.auth?.currentUser?.token;
+  const token = store?.getState()?.auth?.currentUser?.token;
   config.headers.Authorization = `Bearer ${token}`;
   config.headers.Accept = "application/json";
 

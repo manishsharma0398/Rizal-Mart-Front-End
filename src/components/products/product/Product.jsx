@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+
+import { convertToIndianNumberFormat } from "../../../utils/numberFunctions";
+
 import "./Product.scss";
 
 const Product = ({ product }) => {
@@ -7,19 +10,17 @@ const Product = ({ product }) => {
   return (
     <div className="product-card">
       <div className="thumbnail">
-        <img src={images[0]?.url} alt="" />
+        <img src={images[0]?.url} alt={title} />
       </div>
       <div className="product-details">
         <Link to={`/products/${_id}`} className="name">
           {title}
         </Link>
         <span className="price">
-          &#8377; &nbsp;
           <span style={{ textDecoration: "line-through" }}>
-            {fakePrice}
+            ₹{convertToIndianNumberFormat(fakePrice)}
           </span>{" "}
-          &nbsp;
-          {price}
+          &nbsp; ₹{convertToIndianNumberFormat(price)}
         </span>
       </div>
     </div>

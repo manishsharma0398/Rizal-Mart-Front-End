@@ -13,12 +13,23 @@ import Search from "../search/Search";
 import AuthDropdown from "../auth-dropdown/AuthDropdown";
 
 import "./Header.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cartToggler,
+  getCartItems,
+  selectCartItems,
+  selectShowCart,
+} from "../../features/cart/cartSlice";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  // const [showCart, setShowCart] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showAuthDropdown, setShowAuthDropdown] = useState(false);
+  const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
+
+  const showCart = useSelector(selectShowCart);
 
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
@@ -35,18 +46,8 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    dispatch(getCartItems());
   }, []);
-
-  // const scrollToAbout = () => {
-  //   const section = document.querySelector("#footer");
-  //   section.scrollIntoView({
-  //     behavior: "smooth",
-  //     block: "start",
-  //   });
-  // };
-
-  const openCartHandler = () => setShowCart(true);
-  const closeCartHandler = () => setShowCart(false);
 
   const openSearchHandler = () => setShowSearch(true);
   const closeSearchHandler = () => setShowSearch(false);
@@ -83,11 +84,23 @@ const Header = () => {
           </div>
           <div className="right">
             <TbSearch onClick={openSearchHandler} />
-            <AiOutlineHeart />
-            <span onClick={openCartHandler} className="cart-icon">
-              <CgShoppingCart />
-              <span>5</span>
-            </span>
+            {isLoggedIn && (
+              <>
+                <AiOutlineHeart />
+                <span
+                  onClick={() => dispatch(cartToggler(true))}
+                  className="cart-icon"
+                >
+                  <CgShoppingCart />
+                  <span>
+                    {cartItems?.reduce(
+                      (acc, cartItem) => acc + cartItem?.count,
+                      0
+                    )}
+                  </span>
+                </span>
+              </>
+            )}
             <span onClick={onClickAuthHandler} className="auth">
               {isLoggedIn ? (
                 <img
@@ -106,7 +119,9 @@ const Header = () => {
           </div>
         </div>
       </header>
-      {showCart && <Cart closeCartHandler={closeCartHandler} />}
+      {showCart && (
+        <Cart closeCartHandler={() => dispatch(cartToggler(false))} />
+      )}
       {showSearch && <Search closeSearchHandler={closeSearchHandler} />}
       {showAuthDropdown && (
         <AuthDropdown closeAuthDropdown={closeAuthDropdown} />

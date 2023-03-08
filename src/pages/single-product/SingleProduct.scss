@@ -191,16 +191,29 @@
 
         .cart-buttons {
           display: flex;
+          gap: 10px;
 
           @include md {
             margin-top: 30px;
+          }
+
+          &-text {
+            position: relative;
+            width: 200px;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+
+            h3 {
+              margin-bottom: 0;
+            }
           }
 
           .quantity-buttons {
             display: flex;
             width: fit-content;
             border: 2px solid rgba(0, 0, 0, 0.2);
-            margin-right: 10px;
             height: 50px;
 
             span {
@@ -225,7 +238,7 @@
             }
           }
 
-          .add-to-cart-button {
+          button {
             outline: 0;
             border: 0;
             height: 50px;
@@ -235,14 +248,24 @@
             justify-content: center;
             cursor: pointer;
             font-size: 16px;
-            color: white;
-            background: #8e2de2 !important;
-            border-bottom: 3px solid #6516aa;
+
             flex-grow: 1;
 
             @include md {
               flex-grow: unset;
             }
+          }
+
+          .add-to-cart-button {
+            color: white;
+            background: #8e2de2 !important;
+            border-bottom: 3px solid #6516aa;
+          }
+
+          .go-to-cart-button {
+            color: black;
+            background: yellow !important;
+            border-bottom: 3px solid yellowgreen;
           }
         }
 

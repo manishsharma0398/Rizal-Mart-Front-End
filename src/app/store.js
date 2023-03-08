@@ -9,6 +9,7 @@ import colourSlice from "../features/colours/colourSlice";
 import enquiriesSlice from "../features/enquiry/enquirySlice";
 import orderSlice from "../features/orders/ordersSlice";
 import uploadSlice from "../features/upload/uploadSlice";
+import cartSlice from "../features/cart/cartSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     customer: customerSlice,
     products: productsSlice,
     categories: categorySlice,
+    cart: cartSlice,
     coupons: couponSlice,
     colours: colourSlice,
     enquiries: enquiriesSlice,

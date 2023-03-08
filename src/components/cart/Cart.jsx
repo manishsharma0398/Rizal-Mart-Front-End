@@ -6,8 +6,15 @@ import CartItem from "../cart-item/CartItem";
 import "./Cart.scss";
 import { useState } from "react";
 
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../../features/cart/cartSlice";
+import numeral from "numeral";
+import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
+
 const Cart = ({ closeCartHandler }) => {
   const [isCartEmpty, setIsCartEmpty] = useState(false);
+
+  const cartProducts = useSelector(selectCartItems);
 
   const CartEmpty = () => (
     <div className="empty-cart">
@@ -33,13 +40,31 @@ const Cart = ({ closeCartHandler }) => {
         ) : (
           <>
             <CartItem />
+
             <div className="cart-footer">
               <div className="subtotal">
                 <span className="text">Subtotal: &nbsp;</span>
-                <span className="text total">&#8377; 1234</span>
+                <span className="text total">
+                  &#8377;{" "}
+                  {convertToIndianNumberFormat(
+                    cartProducts?.reduce(
+                      (acc, prod) => acc + prod.count * prod.product.price,
+                      0
+                    )
+                  )}
+                </span>
               </div>
               <div className="button">
-                <button className="checkout-cta">Checkout</button>
+                <button
+                  onClick={() => console.log("first")}
+                  disabled={cartProducts.length < 1}
+                  className={`checkout-cta  ${
+                    cartProducts.length < 1 ? "disabled" : "abled"
+                  }
+                  `}
+                >
+                  Checkout
+                </button>
               </div>
             </div>
           </>

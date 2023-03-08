@@ -21,25 +21,52 @@ import {
   getAProduct,
   selectSingleProduct,
 } from "../../features/product/productSlice";
+import {
+  addToCart,
+  cartToggler,
+  selectCartItems,
+} from "../../features/cart/cartSlice";
 
 import RelatedProducts from "../../components/related-products/RelatedProducts";
 
 import "./SingleProduct.scss";
+import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
 
 const SingleProduct = () => {
   const imageContainerRef = useRef();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollDirection, setScrollDirection] = useState("");
   const [selectedProductImg, setSelectedProductImg] = useState(0);
+  const [productQuantityInCart, setProductQuantityInCart] = useState(1);
 
   const dispatch = useDispatch();
   const productId = useParams().productId;
 
   const singleProduct = useSelector(selectSingleProduct) || {};
+  const cartItems = useSelector(selectCartItems);
 
   useEffect(() => {
     dispatch(getAProduct(productId));
   }, [productId]);
+
+  const addProductToCartHandler = () => {
+    dispatch(addToCart({ productId, quantity: productQuantityInCart }));
+  };
+
+  const productQuantityHandler = (type) => {
+    console.log(type);
+    const MIN = 1;
+    const MAX = 10;
+
+    if (type === "increment") {
+      if (productQuantityInCart >= MAX) return;
+      setProductQuantityInCart((quantity) => quantity + 1);
+    }
+    if (type === "decrement") {
+      if (productQuantityInCart <= MIN) return;
+      setProductQuantityInCart((quantity) => quantity - 1);
+    }
+  };
 
   const handleScrollRow = (direction) => {
     const MIN_SCROLL_POSITION = 0;
@@ -92,6 +119,17 @@ const SingleProduct = () => {
       }
     }
   }, [scrollPosition]);
+
+  const productAlreadyInCart = () => {
+    return cartItems?.some(
+      (cartItem) => cartItem?.product?._id === singleProduct?._id
+    );
+  };
+
+  useEffect(() => {
+    const d = productAlreadyInCart();
+    console.log(d);
+  }, [cartItems]);
 
   return (
     singleProduct && (
@@ -150,27 +188,62 @@ const SingleProduct = () => {
                   </button>
                 </div>
               </div>
-              {/* placeholderImage */}
             </div>
             <div className="right">
               <span className="name">{singleProduct?.title}</span>
-              <span className="price">{singleProduct.price}</span>
+              <span className="price">
+                <span
+                  style={{ textDecoration: "line-through" }}
+                  className="fake-price"
+                >
+                  ₹{convertToIndianNumberFormat(singleProduct.fakePrice)}
+                </span>
+                &nbsp; &nbsp; ₹
+                {convertToIndianNumberFormat(singleProduct.price)}
+              </span>
               <ReactQuill
+                style={{
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                }}
                 className="desc"
                 readOnly
-                value={singleProduct?.description}
+                value={singleProduct?.description?.slice(0, 100)}
                 theme="bubble"
               />
-              <div className="cart-buttons">
-                <div className="quantity-buttons">
-                  <span>-</span>
-                  <span>1</span>
-                  <span>+</span>
+
+              {productAlreadyInCart() ? (
+                <div className="cart-buttons">
+                  <div className="cart-buttons-text">
+                    <h3>Item already in cart</h3>
+                  </div>
+                  <button
+                    onClick={() => dispatch(cartToggler(true))}
+                    className="go-to-cart-button"
+                  >
+                    <FaCartPlus size={20} /> GO TO CART
+                  </button>
                 </div>
-                <button className="add-to-cart-button">
-                  <FaCartPlus size={20} /> ADD TO CART
-                </button>
-              </div>
+              ) : (
+                <div className="cart-buttons">
+                  <div className="quantity-buttons">
+                    <span onClick={() => productQuantityHandler("decrement")}>
+                      -
+                    </span>
+                    <span>{productQuantityInCart}</span>
+                    <span onClick={() => productQuantityHandler("increment")}>
+                      +
+                    </span>
+                  </div>
+                  <button
+                    onClick={addProductToCartHandler}
+                    className="add-to-cart-button"
+                  >
+                    <FaCartPlus size={20} /> ADD TO CART
+                  </button>
+                </div>
+              )}
 
               <span className="divider" />
 
