@@ -1,8 +1,12 @@
 @import "../../../config/css-config/mixin.scss";
 
 .product-card {
-  width: calc(50% - 5px);
   margin-bottom: 20px;
+  width: calc(100% - 2px);
+
+  @include sm {
+    width: calc(50% - 5px);
+  }
 
   @include md {
     width: calc(33% - 15px);
@@ -49,9 +53,11 @@
     flex-direction: column;
 
     .name {
-      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      white-space: nowrap;
+      text-overflow: ellipsis;
       font-size: 14px;
 
       @include md {

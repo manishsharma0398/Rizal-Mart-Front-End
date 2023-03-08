@@ -1,24 +1,50 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import BannerImg from "../../assets/banner-img.png";
+import {
+  getBannerProducts,
+  selectBannerProducts,
+  selectBannerProductsError,
+  selectBannerProductsStatus,
+} from "../../features/product/productSlice";
+
 import "./Banner.scss";
 
-import BannerImg from "../../assets/banner-img.png";
-
 const Banner = () => {
+  const dispatch = useDispatch();
+  const bannerData = useSelector(selectBannerProducts);
+  const bannerDataError = useSelector(selectBannerProductsError);
+  const bannerDataStatus = useSelector(selectBannerProductsStatus);
+
+  useEffect(() => {
+    dispatch(getBannerProducts());
+  }, []);
+
   return (
     <div className="hero-banner">
       <div className="content">
         <div className="text-content">
-          <h1>SALES</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum culpa
-            beatae laboriosam minima id similique dignissimos reiciendis nobis
-            magni earum?
-          </p>
+          <h1>{bannerData[0]?.banner?.title}</h1>
+          <p>{bannerData[0]?.banner?.text}</p>
           <div className="ctas">
-            <div className="banner-cta">Read More</div>
-            <div className="banner-cta v2">Shop Now</div>
+            <Link to={`/products/${bannerData[0]?._id}`} className="banner-cta">
+              Read More
+            </Link>
+            {/* TODO: order the product directly */}
+            <Link
+              to={`/products/${bannerData[0]?._id}`}
+              className="banner-cta v2"
+            >
+              Shop Now
+            </Link>
           </div>
         </div>
-        <img className="banner-img" src={BannerImg} alt="" />
+        <img
+          className="banner-img"
+          src={bannerData[0]?.images[0]?.url}
+          alt=""
+        />
       </div>
     </div>
   );

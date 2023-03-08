@@ -13,6 +13,11 @@ const getProducts = async (queries) => {
   return response;
 };
 
+const getBannerProducts = async () => {
+  const response = await publicRequest.get(`/products/?banner=${true}`);
+  return response;
+};
+
 const getAProduct = async (id) => {
   const response = await publicRequest.get(`/products/${id}`);
   return response;
@@ -28,6 +33,12 @@ const deleteProduct = async (id) => {
   return response;
 };
 
-const productsService = { getProducts, addProduct, deleteProduct, getAProduct };
+const productsService = {
+  getProducts,
+  addProduct,
+  deleteProduct,
+  getAProduct,
+  getBannerProducts,
+};
 
 export default productsService;

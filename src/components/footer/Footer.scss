@@ -32,11 +32,29 @@ footer {
 
       .c-item {
         display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
         margin-bottom: 10px;
+
+        @include xs {
+          flex-direction: row;
+          justify-content: start;
+          align-items: start;
+        }
+
+        .text {
+          text-align: center;
+
+          @include xs {
+            text-align: left;
+          }
+        }
 
         a {
           //   text-decoration: inherit;
           color: rgba(0, 0, 0, 0.5);
+          // text-align: center;
         }
 
         svg {
@@ -92,6 +110,15 @@ footer {
       .text {
         font-size: 12px;
         color: rgba(0, 0, 0, 0.5);
+      }
+
+      img {
+        width: 100%;
+
+        @include xs {
+          height: 22px;
+          max-width: 220px;
+        }
       }
     }
   }

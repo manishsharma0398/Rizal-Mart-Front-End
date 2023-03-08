@@ -32,10 +32,10 @@
       align-items: center;
 
       @include lg {
-        position: absolute;
+        // position: absolute;
         top: 50%;
         left: 50px;
-        transform: translateY(-50%);
+        // transform: translateY(-50%);
       }
 
       @include xxl {
@@ -43,10 +43,16 @@
       }
 
       h1 {
-        font-size: 80px;
+        font-size: 40px;
+
+        @include xs {
+          font-size: 80px;
+        }
+
         font-weight: 700;
         line-height: 1;
         margin-bottom: 20px;
+        color: white;
 
         @include xxl {
           font-size: 180px;
@@ -69,8 +75,13 @@
 
       .ctas {
         display: flex;
-        justify-content: center;
         gap: 20px;
+        justify-content: center;
+        flex-direction: column;
+
+        @include xs {
+          flex-direction: row;
+        }
 
         .banner-cta {
           text-transform: uppercase;
@@ -79,6 +90,7 @@
           border: 2px solid white;
           padding: 10px 20px;
           cursor: pointer;
+          color: white;
 
           &.v2 {
             background-color: white;
@@ -97,6 +109,11 @@
       z-index: 9;
       width: 200px;
       margin-bottom: 20px;
+
+      // img {
+      //   mix-blend-mode: darken;
+      // }
+      mix-blend-mode: multiply;
 
       @include lg {
         width: 100%;

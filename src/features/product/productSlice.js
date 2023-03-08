@@ -10,6 +10,11 @@ const initialState = {
     status: "idle",
     error: null,
   },
+  bannerProducts: {
+    products: [],
+    status: "idle",
+    error: null,
+  },
 };
 
 export const getAllProducts = createAsyncThunk(
@@ -73,6 +78,18 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+export const getBannerProducts = createAsyncThunk(
+  "products/get-banner-products",
+  async (thunkAPI) => {
+    try {
+      const response = await productsService.getBannerProducts();
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productSlice = createSlice({
   name: "products",
   initialState,
@@ -85,6 +102,20 @@ export const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getBannerProducts.pending, (state) => {
+        state.bannerProducts.status = "loading";
+        state.bannerProducts.error = null;
+      })
+      .addCase(getBannerProducts.fulfilled, (state, action) => {
+        state.bannerProducts.status = "success";
+        state.bannerProducts.products = action.payload;
+        state.bannerProducts.error = null;
+      })
+      .addCase(getBannerProducts.rejected, (state, action) => {
+        state.bannerProducts.status = "rejected";
+        state.bannerProducts.error = action.payload.message;
+        state.bannerProducts.products = null;
+      })
       .addCase(getAProduct.pending, (state) => {
         state.singleProduct.status = "loading";
         state.singleProduct.error = null;
@@ -156,6 +187,13 @@ export const selectSingleProductError = (state) =>
   state.products.singleProduct.error;
 export const selectSingleProductStatus = (state) =>
   state.products.singleProduct.status;
+
+export const selectBannerProducts = (state) =>
+  state.products.bannerProducts.products;
+export const selectBannerProductsError = (state) =>
+  state.products.bannerProducts.error;
+export const selectBannerProductsStatus = (state) =>
+  state.products.bannerProducts.status;
 
 export const { clearSingleProduct } = productSlice.actions;
 

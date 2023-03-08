@@ -13,29 +13,12 @@ const Categories = () => {
       <div className="categories">
         {categories.map((category, i) => (
           <div key={i} className="category">
-            {/* <img src={Cat1} alt="" /> */}
             <Link to={`/products/?category=${category?._id}`}>
               {category?.category}
             </Link>
           </div>
         ))}
       </div>
-      {/* <div className="categories-menu">
-        <div className="container">
-          {categories.map((category, i) => {
-            return (
-              <Link
-                to={`/products/?category=${category.name.toLowerCase()}`}
-                key={i}
-                className="categories-menu-item"
-              >
-                <img src={category.img} alt={category.name} />
-                <p>{category.name}</p>
-              </Link>
-            );
-          })}
-        </div>
-      </div> */}
     </div>
   );
 };

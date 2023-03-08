@@ -46,7 +46,7 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    dispatch(getCartItems());
+    isLoggedIn && dispatch(getCartItems());
   }, []);
 
   const openSearchHandler = () => setShowSearch(true);
