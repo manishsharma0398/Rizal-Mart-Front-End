@@ -1,15 +1,14 @@
+import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { BsCartX } from "react-icons/bs";
+import { useSelector } from "react-redux";
+
+import { selectCartItems } from "../../features/cart/cartSlice";
+import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
 
 import CartItem from "../cart-item/CartItem";
 
 import "./Cart.scss";
-import { useState } from "react";
-
-import { useSelector } from "react-redux";
-import { selectCartItems } from "../../features/cart/cartSlice";
-import numeral from "numeral";
-import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
 
 const Cart = ({ closeCartHandler }) => {
   const [isCartEmpty, setIsCartEmpty] = useState(false);

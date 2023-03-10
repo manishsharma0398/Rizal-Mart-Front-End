@@ -139,14 +139,8 @@ const SingleProduct = () => {
   };
 
   const addToWishListHandler = () => {
-    // console.log(singleProduct?._id);
     dispatch(addToWishlist({ productId: singleProduct?._id }));
   };
-
-  // useEffect(() => {
-  //   const d = productAlreadyInCart();
-  //   console.log(d);
-  // }, [cartItems]);
 
   return (
     singleProduct && (
@@ -230,38 +224,6 @@ const SingleProduct = () => {
                 theme="bubble"
               />
 
-              {/* {productAlreadyInCart() ? (
-                <div className="cart-buttons">
-                  <div className="cart-buttons-text">
-                    <h3>Item already in cart</h3>
-                  </div>
-                  <button
-                    onClick={() => dispatch(cartToggler(true))}
-                    className="go-to-cart-button"
-                  >
-                    <FaCartPlus size={20} /> GO TO CART
-                  </button>
-                </div>
-              ) : (
-                <div className="cart-buttons">
-                  <div className="quantity-buttons">
-                    <span onClick={() => productQuantityHandler("decrement")}>
-                      -
-                    </span>
-                    <span>{productQuantityInCart}</span>
-                    <span onClick={() => productQuantityHandler("increment")}>
-                      +
-                    </span>
-                  </div>
-                  <button
-                    onClick={addProductToCartHandler}
-                    className="add-to-cart-button"
-                  >
-                    <FaCartPlus size={20} /> ADD TO CART
-                  </button>
-                </div>
-              )} */}
-
               <div className="cart-buttons">
                 {productAlreadyInCart() ? (
                   <div className="cart-buttons-text">
@@ -293,20 +255,22 @@ const SingleProduct = () => {
                     <FaCartPlus size={20} /> &nbsp; ADD TO CART
                   </button>
                 )}
-                <button
-                  onClick={addToWishListHandler}
-                  className="add-to-wishlist-button"
-                >
-                  {productAlreadyInWishlist() ? (
-                    <>
-                      <AiOutlineHeart size={20} /> &nbsp; REMOVE FROM WISHLIST
-                    </>
-                  ) : (
-                    <>
-                      <AiFillHeart size={20} /> &nbsp; ADD TO WISHLIST
-                    </>
-                  )}
-                </button>
+
+                {productAlreadyInWishlist() ? (
+                  <button
+                    onClick={addToWishListHandler}
+                    className="added-to-wishlist-button"
+                  >
+                    <AiOutlineHeart size={20} /> &nbsp; REMOVE FROM WISHLIST
+                  </button>
+                ) : (
+                  <button
+                    onClick={addToWishListHandler}
+                    className="add-to-wishlist-button"
+                  >
+                    <AiFillHeart size={20} /> &nbsp; ADD TO WISHLIST
+                  </button>
+                )}
               </div>
 
               <span className="divider" />

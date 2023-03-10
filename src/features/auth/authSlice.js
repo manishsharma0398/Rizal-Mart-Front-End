@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import jwt_decode from "jwt-decode";
 
 import authService from "./authService";
 
@@ -35,7 +34,18 @@ export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: () => {},
+  reducers: {
+    updateToken(state, action) {
+      state.currentUser.token = action.payload;
+      const userDataFromStorage = JSON.parse(
+        localStorage.getItem("rizal_mart")
+      );
+
+      userDataFromStorage.token = action.payload;
+
+      localStorage.setItem("rizal_mart", JSON.stringify(userDataFromStorage));
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -76,5 +86,7 @@ export const selectAuthStatus = (state) => state?.auth?.status;
 export const selectUserData = (state) => state?.auth?.currentUser?.user;
 export const selectUserToken = (state) => state?.auth?.currentUser?.token;
 // export const selectUserId = (state) => state?.auth?.currentUser?.user?._id;
+
+export const { updateToken } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -5,7 +5,6 @@ import {
   getAllProducts,
   selectProductsData,
 } from "../../features/product/productSlice";
-import { getAllCategories } from "../../features/category/categorySlice";
 
 import Banner from "../../components/banner/Banner";
 import Products from "../../components/products/Products";
@@ -20,7 +19,6 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getAllProducts({ limit: 8, popular: true }));
-    dispatch(getAllCategories());
   }, []);
 
   return (

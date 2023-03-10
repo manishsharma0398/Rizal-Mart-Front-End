@@ -14,20 +14,27 @@ import {
   selectCartItems,
   selectShowCart,
 } from "../../features/cart/cartSlice";
-import { getWishlistProducts } from "../../features/wishlist/wishlistSlice";
+import { getAllCategories } from "../../features/category/categorySlice";
+import {
+  getWishlistProducts,
+  selectWishListProducts,
+} from "../../features/wishlist/wishlistSlice";
 
 import Cart from "../cart/Cart";
 import Search from "../search/Search";
 import AuthDropdown from "../auth-dropdown/AuthDropdown";
+import Wishlist from "../wishlist/Wishlist";
 
 import "./Header.scss";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  // const [showCart, setShowCart] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showAuthDropdown, setShowAuthDropdown] = useState(false);
+  const [showWishlist, setShowWishlist] = useState(false);
+
   const cartItems = useSelector(selectCartItems);
+  const wishlistItems = useSelector(selectWishListProducts);
   const dispatch = useDispatch();
 
   const showCart = useSelector(selectShowCart);
@@ -47,6 +54,7 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    dispatch(getAllCategories());
     isLoggedIn && dispatch(getCartItems());
     isLoggedIn && dispatch(getWishlistProducts());
   }, []);
@@ -59,6 +67,10 @@ const Header = () => {
 
   const toggleAuthDropdown = () => {
     setShowAuthDropdown(!showAuthDropdown);
+  };
+
+  const toggleShowWishlist = () => {
+    setShowWishlist(!showWishlist);
   };
 
   const onClickAuthHandler = () => {
@@ -88,7 +100,10 @@ const Header = () => {
             <TbSearch onClick={openSearchHandler} />
             {isLoggedIn && (
               <>
-                <AiOutlineHeart />
+                <span onClick={toggleShowWishlist} className="cart-icon">
+                  <AiOutlineHeart />
+                  <span>{wishlistItems?.length}</span>
+                </span>
                 <span
                   onClick={() => dispatch(cartToggler(true))}
                   className="cart-icon"
@@ -124,6 +139,7 @@ const Header = () => {
       {showCart && (
         <Cart closeCartHandler={() => dispatch(cartToggler(false))} />
       )}
+      {showWishlist && <Wishlist closeCartHandler={toggleShowWishlist} />}
       {showSearch && <Search closeSearchHandler={closeSearchHandler} />}
       {showAuthDropdown && (
         <AuthDropdown closeAuthDropdown={closeAuthDropdown} />

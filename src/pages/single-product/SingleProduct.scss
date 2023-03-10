@@ -191,6 +191,7 @@
 
         .cart-buttons {
           display: flex;
+          flex-wrap: wrap;
           gap: 10px;
 
           @include md {
@@ -266,6 +267,24 @@
             color: black;
             background: yellow !important;
             border-bottom: 3px solid yellowgreen;
+          }
+
+          .added-to-wishlist-button {
+            color: white;
+            background: #b4161b !important;
+            width: 300px;
+          }
+
+          .add-to-wishlist-button {
+            color: black;
+            background: white !important;
+            border-bottom: 3px solid black;
+            width: 300px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+            svg {
+              color: #b4161b;
+            }
           }
         }
 
