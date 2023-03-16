@@ -20,6 +20,7 @@ import Unauthorized from "./components/Unauthorized";
 
 import Home from "./pages/home/Home";
 import Products from "./pages/products/Products";
+import Checkout from "./pages/checkout/Checkout";
 import SingleProduct from "./pages/single-product/SingleProduct";
 
 import Orders from "./pages-admin/Orders";
@@ -73,7 +74,9 @@ const App = () => {
             <Route path="products" element={<Products />} />
             <Route path="products/:productId" element={<SingleProduct />} />
 
-            <Route element={<OnlyAuthUser allowedRoles={["user"]} />}></Route>
+            <Route element={<OnlyAuthUser allowedRoles={["user"]} />}>
+              <Route path="/checkout" element={<Checkout />} />
+            </Route>
 
             <Route element={<OnlyNotAuth />}>
               <Route path="login" element={<Login />} />

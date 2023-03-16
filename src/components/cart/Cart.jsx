@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { BsCartX } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { selectCartItems } from "../../features/cart/cartSlice";
+import { cartToggler, selectCartItems } from "../../features/cart/cartSlice";
 import { convertToIndianNumberFormat } from "../../utils/numberFunctions";
 
 import CartItem from "../cart-item/CartItem";
 
 import "./Cart.scss";
+import { useNavigate } from "react-router-dom";
+import { setOrdersFromCart } from "../../features/orders/ordersSlice";
 
 const Cart = ({ closeCartHandler }) => {
   const [isCartEmpty, setIsCartEmpty] = useState(false);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cartProducts = useSelector(selectCartItems);
 
   const CartEmpty = () => (
@@ -55,7 +59,15 @@ const Cart = ({ closeCartHandler }) => {
               </div>
               <div className="button">
                 <button
-                  onClick={() => console.log("first")}
+                  onClick={() => {
+                    dispatch(setOrdersFromCart(cartProducts));
+                    dispatch(cartToggler(false));
+                    navigate("/checkout", {
+                      state: {
+                        fromCart: true,
+                      },
+                    });
+                  }}
                   disabled={cartProducts.length < 1}
                   className={`checkout-cta  ${
                     cartProducts.length < 1 ? "disabled" : "abled"
@@ -72,4 +84,5 @@ const Cart = ({ closeCartHandler }) => {
     </div>
   );
 };
+
 export default Cart;

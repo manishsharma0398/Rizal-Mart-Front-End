@@ -9,7 +9,7 @@ const login = async (userData) => {
 };
 
 const logout = async () => {
-  const response = await privateRequest.post("/auth/logout");
+  const response = await publicRequest.post("/auth/logout");
   return response;
 };
 

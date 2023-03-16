@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { updateToken } from "../features/auth/authSlice";
+import { updateToken, logout } from "../features/auth/authSlice";
 
 export const base_url = import.meta.env.VITE_BASE_URL;
 
@@ -27,11 +27,15 @@ privateRequest.interceptors.request.use(async function (config) {
   // Check if token expired
   if (token && (await isTokenExpired(token))) {
     console.log("Token expired.... ");
-    const newToken = await refreshAccessToken();
-    store.dispatch(updateToken(newToken));
-    config.headers.Authorization = `Bearer ${newToken}`;
+    try {
+      const newToken = await refreshAccessToken();
+      const { accessToken } = newToken.response.data;
+      store.dispatch(updateToken(accessToken));
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    } catch (error) {
+      store.dispatch(logout());
+    }
   }
-
   return config;
 });
 
@@ -40,14 +44,11 @@ async function isTokenExpired(token) {
   const expiryTime = jwtDecode(token).exp * 1000;
   const currentTime = new Date().getTime();
 
-  console.log({ expiryTime, currentTime });
-  console.log(currentTime >= expiryTime);
-
   return currentTime >= expiryTime;
 }
 
 // Function to refresh access token
 async function refreshAccessToken() {
   const newToken = await publicRequest.post("/auth/refresh");
-  return newToken.data.accessToken;
+  return newToken;
 }
