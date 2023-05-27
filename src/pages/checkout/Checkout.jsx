@@ -2,7 +2,10 @@ import { message, Steps } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { selectOrderProducts } from "../../features/orders/ordersSlice";
+import {
+  createOrder,
+  selectOrderProducts,
+} from "../../features/orders/ordersSlice";
 import Address from "./address/Address";
 
 import CheckoutProducts from "./checkout-products/CheckoutProducts";
@@ -50,7 +53,15 @@ const Checkout = () => {
   };
 
   const checkOutDone = () => {
-    console.log(checkoutOptions, orderProducts);
+    // console.log(checkoutOptions, orderProducts);
+    const { deliveryAddress, paymentOpt } = checkoutOptions;
+    dispatch(
+      createOrder({
+        products: orderProducts,
+        addressId: deliveryAddress,
+        paymentType: paymentOpt,
+      })
+    );
   };
 
   return (

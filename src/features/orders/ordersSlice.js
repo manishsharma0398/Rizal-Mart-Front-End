@@ -49,6 +49,18 @@ export const addAddress = createAsyncThunk(
   }
 );
 
+export const createOrder = createAsyncThunk(
+  "orders/create",
+  async (data, thunkAPI) => {
+    try {
+      const response = await orderService.createOrder(data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const orderSlice = createSlice({
   name: "orders",
   initialState,

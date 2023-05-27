@@ -42,7 +42,7 @@ const Register = () => {
     validationSchema: schema,
     onSubmit: async (values) => {
       notifyLoading();
-      await dispatch(login(values));
+      // await dispatch(register(values));
       toast.dismiss(loadingRef.current);
     },
   });
@@ -90,7 +90,7 @@ const Register = () => {
           />
 
           <CustomInput
-            id="confpassword"
+            id="confirmPassword"
             type="password"
             label="Confirm Password"
             error={formik.errors.confirmPassword}

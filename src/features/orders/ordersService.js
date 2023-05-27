@@ -5,6 +5,11 @@ const getOrders = async () => {
   return response;
 };
 
+const createOrder = async (data) => {
+  const response = await privateRequest.post("/order", data);
+  return response;
+};
+
 const getAddress = async () => {
   const response = await privateRequest.get("/order/address");
   return response;
@@ -15,6 +20,6 @@ const addNewAddress = async (data) => {
   return response;
 };
 
-const orderService = { getOrders, getAddress, addNewAddress };
+const orderService = { getOrders, getAddress, addNewAddress, createOrder };
 
 export default orderService;
